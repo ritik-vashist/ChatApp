@@ -37,10 +37,9 @@ function Home() {
   let [active, setActive] = useState([]);
   let [send, setSend] = useState("ALL");
 
-  useEffect(async function () {
-    let token = await user.getIdToken(true);
-    // console.log(token);
-    let sock = io("https://morning-fortress-96224.herokuapp.com/", {
+  useEffect(function () {
+    user.getIdToken(true).then(function (token) {
+        let sock = io("https://morning-fortress-96224.herokuapp.com/", {
       extraHeaders: {
         Authorization: `Bearer ${token}`,
       },
@@ -66,7 +65,13 @@ function Home() {
     sock.on("active", function (payload) {
       setActive(payload);
     });
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    // console.log(token);
   }, []);
+
 
 
 
@@ -118,7 +123,7 @@ function Home() {
             <ReactScrollableFeed>
             {messages.map(function (messageItem, idx) {
 
-return (messageItem.senderName == user.displayName || messageItem.senderName.slice(0, -10) == user.displayName) ? (
+return (messageItem.senderName === user.displayName || messageItem.senderName.slice(0, -10) === user.displayName) ? (
   <p key={idx}>
     <button style={{
       backgroundColor: "white",
@@ -224,7 +229,7 @@ return (messageItem.senderName == user.displayName || messageItem.senderName.sli
                   color: "#696969",
                 }}
                 onClick={function () {
-                  if (message != "") {
+                  if (message !== "") {
                     socket.emit("message", {
                       message: message,
                       targetId: target,
