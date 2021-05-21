@@ -42,11 +42,13 @@ function Home() {
         let sock = io("https://morning-fortress-96224.herokuapp.com/", {
       extraHeaders: {
         Authorization: `Bearer ${token}`,
+
       },
     });
 
     sock.on("connect", function () {
       console.log("You are connected");
+      console.log(user);
       setSocket(sock);
     });
 
@@ -69,8 +71,10 @@ function Home() {
       .catch(function (err) {
         console.log(err);
       });
+
+
     // console.log(token);
-  }, []);
+  }, [user]);
 
 
 
