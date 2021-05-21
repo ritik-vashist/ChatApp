@@ -8,7 +8,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import background from "./image/background.png";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import { firebase } from "./utils/firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
